@@ -1,14 +1,41 @@
+# Python
 .venv/
 venv/
-node_modules/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Secrets and environment
 .env
 .env.*
 !.env.example
-__pycache__/
-*.py[cod]
+
+# Frontend
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# macOS and logs
 .DS_Store
+*.log
+
+# Private uploads and generated document data
 data/uploads/
-data/vector_db/
-data/app.db
-data/documents.json
 data/processed/
+data/vector_db/
+data/pdfs/
+data/figure_crops/
+data/app.db
+data/app.db-*
+data/documents.json
+*.sqlite
+*.sqlite3
+
+# Local model and cache artifacts
+.cache/
+models/

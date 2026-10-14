@@ -19,6 +19,7 @@ docling-slim==2.138.0
 et_xmlfile==2.0.0
 Faker==40.43.0
 filelock==4.1.1
+fastapi==0.143.0
 filetype==1.2.0
 fsspec==2026.9.0
 h11==0.16.0
@@ -66,6 +67,8 @@ python-docx==1.2.0
 python-dotenv==1.2.4
 python-oxmsg==0.0.2
 python-pptx==1.0.2
+python-multipart==0.0.32
+qdrant-client==1.19.1
 PyYAML==6.0.3
 rapidocr==3.10.0
 referencing==0.37.0
@@ -97,6 +100,7 @@ tree-sitter-typescript==0.23.2
 typer==0.26.8
 typing-inspection==0.4.4
 typing_extensions==4.16.0
+uvicorn==0.54.0
 urllib3==2.8.0
 websockets==16.1.1
 xlsxwriter==3.2.9
