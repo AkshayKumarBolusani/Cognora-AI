@@ -1,0 +1,77 @@
+{
+  "source_document": "TCS Integrated Annual Report 2025-26",
+  "unit": "INR crore unless otherwise specified",
+  "verification_method": "Visually checked against original PDF page images",
+  "values": [
+    {
+      "pdf_page": 166,
+      "table": "Consolidated Balance Sheet",
+      "metric": "Total non-current assets",
+      "fy_2025_26": 46667,
+      "fy_2024_25": 36618
+    },
+    {
+      "pdf_page": 166,
+      "table": "Consolidated Balance Sheet",
+      "metric": "Total current assets",
+      "fy_2025_26": 135705,
+      "fy_2024_25": 123011
+    },
+    {
+      "pdf_page": 166,
+      "table": "Consolidated Balance Sheet",
+      "metric": "Total assets",
+      "fy_2025_26": 182372,
+      "fy_2024_25": 159629
+    },
+    {
+      "pdf_page": 167,
+      "table": "Consolidated Statement of Profit and Loss",
+      "metric": "Revenue from operations",
+      "fy_2025_26": 267021,
+      "fy_2024_25": 255324
+    },
+    {
+      "pdf_page": 167,
+      "table": "Consolidated Statement of Profit and Loss",
+      "metric": "Other income",
+      "fy_2025_26": 4402,
+      "fy_2024_25": 3962
+    },
+    {
+      "pdf_page": 167,
+      "table": "Consolidated Statement of Profit and Loss",
+      "metric": "Total income",
+      "fy_2025_26": 271423,
+      "fy_2024_25": 259286
+    },
+    {
+      "pdf_page": 167,
+      "table": "Consolidated Statement of Profit and Loss",
+      "metric": "Total expenses",
+      "fy_2025_26": 201410,
+      "fy_2024_25": 193955
+    },
+    {
+      "pdf_page": 167,
+      "table": "Consolidated Statement of Profit and Loss",
+      "metric": "Profit before exceptional items and tax",
+      "fy_2025_26": 70013,
+      "fy_2024_25": 65331
+    },
+    {
+      "pdf_page": 167,
+      "table": "Consolidated Statement of Profit and Loss",
+      "metric": "Profit before tax",
+      "fy_2025_26": 65487,
+      "fy_2024_25": 65331
+    },
+    {
+      "pdf_page": 167,
+      "table": "Consolidated Statement of Profit and Loss",
+      "metric": "Profit for the year",
+      "fy_2025_26": 49454,
+      "fy_2024_25": 48797
+    }
+  ]
+}
