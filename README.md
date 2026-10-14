@@ -15,7 +15,18 @@ Upload a document, ask questions grounded in its contents, and follow citations 
 
 ## See it in action
 
-We are preparing a privacy-safe walkthrough with the public TCS sample report. No demo GIF is included yet; personal documents and screenshots are never used as repository assets.
+These screenshots show Cognora's local interface: the empty workspace, a document-grounded chat with page citations, and a citation jump with matching PDF text highlighted. The document screenshots use Java lecture notes supplied by the project owner.
+
+<p align="center">
+  <img src="docs/images/home-screen.png" alt="Cognora empty workspace with chat composer" width="49%" />
+  <img src="docs/images/chat-with-citations.png" alt="Cognora chat answer with page-number citations" width="49%" />
+</p>
+
+<p align="center">
+  <img src="docs/images/citation-highlight.png" alt="Cognora showing a cited PDF page with matching text highlighted" width="88%" />
+</p>
+
+The screenshots are from a local development session. No document contents are sent to this repository by the app; only these explicitly included screenshots are checked in.
 
 ## Results
 
