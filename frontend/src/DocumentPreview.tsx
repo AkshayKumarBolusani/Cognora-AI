@@ -314,6 +314,10 @@ export default function DocumentPreview({
             key={`${documentId}-${attempt}`}
             file={pdfSource}
             options={pdfOptions}
+            // Keep PDF.js loading inside this client component's explicit loading/error UI.
+            // React-PDF's default Suspense mode can leak a pending promise to the app root
+            // during rapid document navigation and trigger React's async-client error.
+            suspense={false}
             onLoadSuccess={({ numPages }) => {
               setPageCount(numPages)
               setLoading(false)

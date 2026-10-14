@@ -1,4 +1,5 @@
 import unittest
+import os
 from types import SimpleNamespace
 from unittest.mock import patch
 
@@ -52,6 +53,11 @@ class NewFakeQdrant:
 
 
 class RetrievalTests(unittest.TestCase):
+    def test_cross_encoder_is_opt_in(self):
+        candidates = [{"text": "first"}, {"text": "second"}]
+        with patch.dict(os.environ, {"RERANKER_MODEL": ""}, clear=False):
+            self.assertIs(retrieval._cross_encoder_rerank("question", candidates), candidates)
+
     def test_table_embedding_adds_headers_without_replacing_original_table(self):
         table = "| Date | Revenue |\n|---|---:|\n| FY26 | 42 |"
         result = retrieval._element_chunks([{

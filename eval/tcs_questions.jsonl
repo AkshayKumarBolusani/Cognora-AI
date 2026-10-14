@@ -1,0 +1,30 @@
+{"id":"text-01","category":"text","question":"What period does the TCS annual report cover?","answer_regex":"April\\s+1,?\\s+2025.{0,30}March\\s+31,?\\s+2026","pages":[4],"evidence":"This report covers the financial year April 1, 2025 to March 31, 2026."}
+{"id":"text-02","category":"text","question":"How many consultants does TCS say it has?","answer_regex":"580,?000","pages":[5],"evidence":"over 580,000 consultants"}
+{"id":"text-03","category":"text","question":"Across how many countries are TCS consultants spread?","answer_regex":"56\\s+countries","pages":[5],"evidence":"spread across 56 countries"}
+{"id":"text-04","category":"text","question":"How many service delivery centers does TCS report?","answer_regex":"194\\s+service delivery centers","pages":[5],"evidence":"194 service delivery centers"}
+{"id":"text-05","category":"text","question":"What consolidated revenue did TCS generate in FY2025-26, in US dollars?","answer_regex":"US?\\$?\\s*30\\s*billion|30\\s*billion","pages":[5],"evidence":"consolidated revenues of US $ 30 billion"}
+{"id":"text-06","category":"text","question":"Who audited the consolidated financial statements?","answer_regex":"B\\s*S\\s*R\\s*&\\s*Co\\.?\\s*LLP","pages":[4],"evidence":"audited by B S R & Co. LLP, Chartered Accountants"}
+{"id":"text-07","category":"text","question":"When is the report's financial year-end?","answer_regex":"March\\s+31,?\\s+2026","pages":[4],"evidence":"financial year April 1, 2025 to March 31, 2026"}
+{"id":"text-08","category":"text","question":"What is TCS's stated aspiration concerning AI?","answer_regex":"world.?s largest AI.?led technology services company","pages":[10],"evidence":"world's largest AI-led technology services company"}
+{"id":"text-09","category":"text","question":"How many continents recognized TCS as a top employer?","answer_regex":"six continents","pages":[5],"evidence":"recognised as a top employer in six continents"}
+{"id":"text-10","category":"text","question":"What non-financial area does the annual report cover in addition to financial reporting?","answer_regex":"non.?financial performance","pages":[4],"evidence":"non-financial performance"}
+{"id":"table-01","category":"table","question":"What was consolidated revenue from operations in FY2025-26?","answer_regex":"267,?021","pages":[167],"evidence":"Revenue from operations — 267,021"}
+{"id":"table-02","category":"table","question":"What was revenue from operations in FY2024-25?","answer_regex":"255,?324","pages":[167],"evidence":"Revenue from operations — 255,324"}
+{"id":"table-03","category":"table","question":"What was total assets in FY2025-26?","answer_regex":"182,?372","pages":[166],"evidence":"Total assets — 182,372"}
+{"id":"table-04","category":"table","question":"What were total current assets in FY2025-26?","answer_regex":"135,?705","pages":[166],"evidence":"Total current assets — 135,705"}
+{"id":"table-05","category":"table","question":"What were total non-current assets in FY2025-26?","answer_regex":"46,?667","pages":[166],"evidence":"Total non-current assets — 46,667"}
+{"id":"table-06","category":"table","question":"What was total income in FY2025-26?","answer_regex":"271,?423","pages":[167],"evidence":"Total income — 271,423"}
+{"id":"table-07","category":"table","question":"What was other income in FY2025-26?","answer_regex":"4,?402","pages":[167],"evidence":"Other income — 4,402"}
+{"id":"table-08","category":"table","question":"What were total expenses in FY2025-26?","answer_regex":"201,?410","pages":[167],"evidence":"Total expenses — 201,410"}
+{"id":"table-09","category":"table","question":"What was profit before tax in FY2025-26?","answer_regex":"65,?487","pages":[167],"evidence":"Profit before tax — 65,487"}
+{"id":"table-10","category":"table","question":"What was profit for the year in FY2025-26?","answer_regex":"49,?454","pages":[167],"evidence":"Profit for the year — 49,454"}
+{"id":"chart-01","category":"chart","question":"According to the director age graphic, what is the average age of directors?","answer_regex":"\\b64\\b","pages":[6],"evidence":"Average Age of Directors: 64 years"}
+{"id":"chart-02","category":"chart","question":"What age range does the director age graphic show?","answer_regex":"58.{0,20}71|71.{0,20}58","pages":[6],"evidence":"Range labels 58 and 71"}
+{"id":"chart-03","category":"chart","question":"What average board tenure does the report graphic show?","answer_regex":"\\b7\\s+years?\\b","pages":[6],"evidence":"Average Tenure on the Board: 7 years"}
+{"id":"chart-04","category":"chart","question":"What is the average tenure of independent directors shown in the report graphic?","answer_regex":"\\b5\\s+years?\\b","pages":[6],"evidence":"Average Tenure of Independent Directors: 5 years"}
+{"id":"chart-05","category":"chart","question":"What percentage of the gender diversity graphic is male?","answer_regex":"75\\s*%|75\\s+percent","pages":[6],"evidence":"Gender Diversity: male 75%"}
+{"id":"chart-06","category":"chart","question":"What percentage of the gender diversity graphic is female?","answer_regex":"25\\s*%|25\\s+percent","pages":[6],"evidence":"Gender Diversity: female 25%"}
+{"id":"chart-07","category":"chart","question":"Which region has the largest share in the revenue by geography chart?","answer_regex":"North America.{0,30}48\\.6\\s*%|48\\.6\\s*%.{0,30}North America","pages":[59],"evidence":"North America — 48.6%"}
+{"id":"chart-08","category":"chart","question":"What share of revenue does the geography chart attribute to the United Kingdom?","answer_regex":"17\\.4\\s*%","pages":[59],"evidence":"United Kingdom — 17.4%"}
+{"id":"chart-09","category":"chart","question":"What share of revenue does the geography chart attribute to India?","answer_regex":"5\\.9\\s*%","pages":[59],"evidence":"India — 5.9%"}
+{"id":"chart-10","category":"chart","question":"What share of revenue does the geography chart attribute to Latin America?","answer_regex":"1\\.9\\s*%","pages":[59],"evidence":"Latin America — 1.9%"}

@@ -7,6 +7,7 @@ collection is intentionally left untouched because it has no upload IDs.
 import hashlib
 import os
 import re
+import threading
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -110,6 +111,46 @@ def _lexical_score(query: str, text: str) -> float:
     unique = set(terms)
     score = sum((1.0 + counts.get(term, 0)) / (1.0 + 0.35 * len(words) / 1000) for term in unique)
     return score
+
+
+_RERANKER_MODEL_NAME = None
+_RERANKER = None
+_RERANKER_LOCK = threading.Lock()
+
+
+def _cross_encoder_rerank(question: str, candidates: list[dict]) -> list[dict]:
+    """Optionally rerank fused candidates with a local Transformers cross-encoder."""
+    global _RERANKER_MODEL_NAME, _RERANKER
+    model_name = os.getenv("RERANKER_MODEL", "").strip()
+    if not model_name or len(candidates) < 2:
+        return candidates
+    if _RERANKER is None or _RERANKER_MODEL_NAME != model_name:
+        with _RERANKER_LOCK:
+            if _RERANKER is None or _RERANKER_MODEL_NAME != model_name:
+                import torch
+                from transformers import AutoModelForSequenceClassification, AutoTokenizer
+
+                tokenizer = AutoTokenizer.from_pretrained(model_name)
+                model = AutoModelForSequenceClassification.from_pretrained(model_name)
+                model.eval()
+                _RERANKER = (tokenizer, model, torch)
+                _RERANKER_MODEL_NAME = model_name
+    tokenizer, model, torch = _RERANKER
+    pairs = [(question, str(item.get("text", ""))[:6000]) for item in candidates]
+    batch_size = max(1, min(int(os.getenv("RERANKER_BATCH_SIZE", "8")), 32))
+    scores = []
+    for start in range(0, len(pairs), batch_size):
+        encoded = tokenizer(
+            [pair[0] for pair in pairs[start:start + batch_size]],
+            [pair[1] for pair in pairs[start:start + batch_size]],
+            padding=True, truncation=True,
+            max_length=512, return_tensors="pt",
+        )
+        with torch.inference_mode():
+            logits = model(**encoded).logits
+        batch_scores = logits[:, 0] if logits.shape[-1] == 1 else logits.softmax(dim=-1)[:, -1]
+        scores.extend(batch_scores.cpu().tolist())
+    return [item for _, item in sorted(zip(scores, candidates), key=lambda pair: pair[0], reverse=True)]
 
 
 def _embed(texts: list[str]) -> list[list[float]]:
@@ -364,7 +405,8 @@ def retrieve(
             if key in vector_rank or key in lexical_rank:
                 fused.append((score, payload))
         fused.sort(key=lambda item: item[0], reverse=True)
-        return [payload for _, payload in fused[:top_k]]
+        candidate_pool = [payload for _, payload in fused[:max(top_k * 4, 20)]]
+        return _cross_encoder_rerank(question, candidate_pool)[:top_k]
     finally:
         client.close()
 

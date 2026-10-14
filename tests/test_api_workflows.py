@@ -163,6 +163,28 @@ class ApiWorkflowTests(unittest.TestCase):
         )
         self.assertEqual(rejected.status_code, 400)
 
+    def test_upload_strips_windows_path_components(self):
+        response = self.client.post(
+            "/api/documents",
+            files={"file": (r"C:\Users\private\notes.md", b"safe text", "text/markdown")},
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["name"], "notes.md")
+        self.assertTrue((api.UPLOADS / response.json()["stored_name"]).is_file())
+
+    def test_cors_rejects_wildcard_origins_with_credentials(self):
+        for value in ("*", "https://*.example.com", "https://example.com/path"):
+            with self.subTest(origin=value), patch.dict("os.environ", {"CORS_ORIGINS": value}):
+                with self.assertRaisesRegex(RuntimeError, r"exact http\(s\) origins"):
+                    api.cors_origins()
+
+    def test_question_router_uses_structured_extrema_only_for_single_document(self):
+        table = "| Date | Amount |\n|---|---:|\n| 01-08-2026 | 10(Cr) |"
+        self.assertIsNotNone(api.route_question(table, "highest amount in August"))
+        self.assertIsNone(api.route_question(
+            table, "highest amount in August", multi_document=True
+        ))
+
     def test_markdown_preview_is_available_before_processing(self):
         response = self.client.post(
             "/api/documents", files={"file": ("notes.md", b"# Notes\n\nPreview this.", "text/markdown")}

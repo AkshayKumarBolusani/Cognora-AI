@@ -28,11 +28,14 @@ frontend/.vite/
 data/uploads/
 data/processed/
 data/vector_db/
-data/pdfs/
+data/pdfs/*
+!data/pdfs/
+!data/pdfs/tcs-annual-report-fy2025-26.pdf
 data/figure_crops/
 data/app.db
 data/app.db-*
 data/documents.json
+eval/latest-results.csv
 *.sqlite
 *.sqlite3
 

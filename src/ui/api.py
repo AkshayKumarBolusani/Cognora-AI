@@ -5,10 +5,11 @@ import os
 import re
 import sqlite3
 import uuid
+from urllib.parse import urlsplit
 from contextlib import contextmanager
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 
 from src.ui.providers import generate_answer
 from src.ui.retrieval import delete_document_indexes, find_evidence_by_text, has_index, index_document, retrieve
@@ -45,16 +46,30 @@ SUPPORTED_DOCUMENT_EXTENSIONS = {
     ".odp", ".epub", ".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp", ".webp",
 }
 
+def cors_origins():
+    origins = {"http://localhost:5173", "http://127.0.0.1:5173"}
+    for raw_origin in os.getenv("CORS_ORIGINS", "").split(","):
+        origin = raw_origin.strip().rstrip("/")
+        if not origin:
+            continue
+        parsed = urlsplit(origin)
+        if (
+            origin == "*" or "*" in parsed.netloc
+            or parsed.scheme not in {"http", "https"} or not parsed.hostname
+            or parsed.path or parsed.query or parsed.fragment
+            or parsed.username or parsed.password
+        ):
+            raise RuntimeError("CORS_ORIGINS must contain exact http(s) origins; wildcards are not allowed.")
+        origins.add(origin)
+    return sorted(origins)
+
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        *[origin.strip() for origin in os.getenv("CORS_ORIGINS", "").split(",") if origin.strip()],
-    ],
+    allow_origins=cors_origins(),
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
+    allow_headers=["Accept", "Authorization", "Content-Type", "Range"],
     expose_headers=["Accept-Ranges", "Content-Range", "Content-Length", "ETag"],
 )
 
@@ -221,6 +236,17 @@ def rank_table_amount(source_text: str, question: str):
     return (min if operation == "min" else max)(candidates, key=lambda row: row["value"])
 
 
+def route_question(source_text: str, question: str, *, multi_document: bool = False):
+    """Route supported whole-table extrema to deterministic aggregation.
+
+    Other questions continue through hybrid retrieval and the configured answer
+    model. The current structured route supports Markdown transaction tables.
+    """
+    if multi_document:
+        return None
+    return rank_table_amount(source_text, question)
+
+
 def get_document(document_id):
     doc = next(
         (item for item in load_docs() if item["id"] == document_id),
@@ -348,7 +374,12 @@ def list_documents():
 
 @app.post("/api/documents")
 async def upload_document(file: UploadFile = File(...)):
-    name = Path(file.filename or "document").name
+    # Browser clients may submit either POSIX or Windows-style path strings.
+    submitted_name = file.filename or "document"
+    name = PureWindowsPath(submitted_name).name
+    name = Path(name).name
+    if not name or name in {".", ".."}:
+        raise HTTPException(400, "Invalid file name")
 
     if Path(name).suffix.lower() not in SUPPORTED_DOCUMENT_EXTENSIONS:
         supported = ", ".join(sorted(SUPPORTED_DOCUMENT_EXTENSIONS))
@@ -700,7 +731,9 @@ def send_message(chat_id: str, request: MessageRequest):
     )
 
     source_text = source_by_id[doc["id"]]
-    ranked_row = rank_table_amount(source_text, question) if len(selected_docs) == 1 else None
+    ranked_row = route_question(
+        source_text, question, multi_document=len(selected_docs) > 1
+    )
     if ranked_row:
         try:
             source = find_evidence_by_text(doc["id"], source_text, ranked_row["row"])
